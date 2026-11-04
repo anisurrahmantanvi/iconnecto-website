@@ -115,7 +115,7 @@ const privacy = `
 <h2>Your choices and your data</h2><ul>
 <li>Download a copy of your information: Settings → Your Information.</li>
 <li>Deactivate your account (hides your profile until you come back): Settings → Account Deactivation.</li>
-<li>Delete your account and data: see <a href="${base}delete-account/">How to delete your account</a>.</li>
+<li>Delete your account and data (completed after a 30-day waiting period): see <a href="${base}delete-account/">How to delete your account</a>.</li>
 <li>Edit or delete individual posts and comments at any time.</li></ul>
 <h2>Children</h2><p>${cfg.appName} is not meant for children under 13, and we do not knowingly collect their information. If you believe a child has an account, contact us and we will remove it.</p>
 <h2>Changes</h2><p>If this policy changes, the date at the top will change. Significant changes will be announced in the app.</p>
@@ -133,21 +133,103 @@ page('terms', 'Terms of Service', `
 <h2>Changes</h2><p>We may update these terms. Important changes will be shown in the app. Using the app after a change means you accept it.</p>
 <h2>Contact</h2><p>${contact}.</p>`, 'The rules for using iConnecto.')
 
+const ui = `
+<div id="app"><p class="muted">Loading…</p></div>
+<noscript><p>Please turn on JavaScript to delete your account here, or email ${contact} from your registered address.</p></noscript>
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm'
+const sb = createClient(${JSON.stringify(cfg.supabaseUrl)}, ${JSON.stringify(cfg.supabasePublishableKey)}, { auth: { persistSession: false, autoRefreshToken: false } })
+const app = document.getElementById('app')
+const h = (html) => { app.innerHTML = html }
+const esc = (t) => String(t ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]))
+const msg = (t, bad) => '<p style="color:' + (bad ? '#d33' : 'var(--muted)') + '" role="alert">' + esc(t) + '</p>'
+const form = 'display:grid;gap:10px;max-width:360px'
+const input = 'padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--fg);font:inherit'
+const btn = (c) => 'padding:12px 20px;border:0;border-radius:999px;font:inherit;font-weight:600;cursor:pointer;color:#fff;background:' + c
+
+function login(note) {
+  h(msg(note || '') + '<form id="f" style="' + form + '"><label>Email<br><input name="email" type="email" required autocomplete="username" style="' + input + ';width:100%"></label>' +
+    '<label>Password<br><input name="password" type="password" required autocomplete="current-password" style="' + input + ';width:100%"></label>' +
+    '<button style="' + btn('var(--accent)') + '">Sign in</button></form>' +
+    '<p class="muted" style="font-size:.9rem">Forgot your password? Open the app, tap "Forgot password", then come back here.</p>')
+  document.getElementById('f').onsubmit = async (e) => {
+    e.preventDefault()
+    const fd = new FormData(e.target)
+    const { error } = await sb.auth.signInWithPassword({ email: fd.get('email'), password: fd.get('password') })
+    if (error) return login(error.message)
+    mfaThenStatus()
+  }
+}
+
+async function mfaThenStatus() {
+  const { data } = await sb.auth.mfa.getAuthenticatorAssuranceLevel()
+  if (data && data.nextLevel === 'aal2' && data.currentLevel !== 'aal2') {
+    const { data: f } = await sb.auth.mfa.listFactors()
+    const factor = (f?.totp || []).find((x) => x.status === 'verified')
+    if (factor) return askCode(factor.id)
+  }
+  status()
+}
+
+function askCode(id, note) {
+  h(msg(note || 'Enter the 6-digit code from your authenticator app.') + '<form id="f" style="' + form + '"><input name="code" inputmode="numeric" maxlength="6" required style="' + input + ';letter-spacing:.3em;text-align:center"><button style="' + btn('var(--accent)') + '">Verify</button></form>')
+  document.getElementById('f').onsubmit = async (e) => {
+    e.preventDefault()
+    const { error } = await sb.auth.mfa.challengeAndVerify({ factorId: id, code: new FormData(e.target).get('code') })
+    if (error) return askCode(id, error.message)
+    status()
+  }
+}
+
+async function status() {
+  const { data: due } = await sb.rpc('my_account_deletion')
+  if (due) return scheduled(due)
+  h('<p>You are signed in. Deleting your account <strong>hides your profile now</strong> and <strong>permanently deletes your account and all your data after 30 days</strong>. You can cancel any time before then by signing in here or in the app.</p>' +
+    '<p><label><input type="checkbox" id="ok"> I understand and want to delete my account.</label></p>' +
+    '<button id="del" style="' + btn('#d33') + '" disabled>Delete my account</button> <button id="out" style="' + btn('#6b7280') + '">Sign out</button><div id="m"></div>')
+  const ok = document.getElementById('ok'), del = document.getElementById('del')
+  ok.onchange = () => { del.disabled = !ok.checked }
+  document.getElementById('out').onclick = async () => { await sb.auth.signOut(); login() }
+  del.onclick = async () => {
+    del.disabled = true
+    const { data: when, error } = await sb.rpc('request_account_deletion')
+    if (error) { document.getElementById('m').innerHTML = msg(error.message, true); del.disabled = false; return }
+    scheduled(when)
+  }
+}
+
+function scheduled(when) {
+  h('<p><strong>Deletion scheduled.</strong> Your account and data will be permanently deleted on <strong>' + esc(new Date(when).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })) + '</strong>. Your profile is hidden until then.</p>' +
+    '<p>Changed your mind?</p><button id="cancel" style="' + btn('var(--accent)') + '">Cancel deletion</button> <button id="out" style="' + btn('#6b7280') + '">Sign out</button><div id="m"></div>')
+  document.getElementById('out').onclick = async () => { await sb.auth.signOut(); login() }
+  document.getElementById('cancel').onclick = async () => {
+    const { error } = await sb.rpc('cancel_account_deletion')
+    if (error) return (document.getElementById('m').innerHTML = msg(error.message, true))
+    status()
+  }
+}
+login()
+</script>`
+
 page('delete-account', 'Delete your account', `
 <h1>Delete your account and data</h1><p class="muted">${cfg.appName}</p>
-<h2>Delete it yourself in the app</h2>
-<ol><li>Open ${cfg.appName} and sign in.</li><li>Go to <strong>Settings → Account Center</strong>.</li><li>Tap <strong>Delete account</strong>, type your username to confirm, and tap Delete.</li></ol>
-<p>This is immediate and cannot be undone.</p>
+<h2>Delete it here</h2>
+<p>Sign in with your ${cfg.appName} email and password to request deletion. You can also do it in the app: <strong>Settings → Account Center → Delete account</strong>.</p>
+${ui}
+<h2>How it works</h2>
+<ol><li><strong>Day 0:</strong> you request deletion. Your profile is hidden from everyone right away.</li>
+<li><strong>Days 1–30:</strong> nothing is deleted yet. Sign in (here or in the app) and tap <em>Cancel deletion</em> to keep your account.</li>
+<li><strong>After 30 days:</strong> your account is permanently deleted and the data below is removed from our database and file storage. This cannot be undone.</li></ol>
 <h2>What is deleted</h2><ul>
 <li>Your profile, photos, posts, comments, reactions and saved posts.</li>
-<li>Your messages and call history, your friends list, and your support requests.</li>
-<li>Files you uploaded (photos and audio).</li>
+<li>Your messages, call history, friends list and support requests.</li>
+<li>Pages you own, and files you uploaded (photos and audio).</li>
 <li>Your sign-in account.</li></ul>
-<p>Copies of messages you sent that other people have already received on their phones are not on our servers after deletion.</p>
+<p>Copies of messages you sent that other people already received on their own phones are theirs and are not on our servers after deletion.</p>
 <h2>Can't sign in?</h2>
-<p>Email ${contact} from the address registered on your account with the subject "Delete my account", and include your username. We will confirm that the request comes from you and delete the account.</p>
-<h2>Just want a break?</h2><p>Use <strong>Settings → Account Deactivation</strong> to hide your profile without deleting anything. You can reactivate by signing in.</p>
-<p><a href="${base}privacy/">Privacy Policy</a></p>`, 'How to delete your iConnecto account and data.')
+<p>Email ${contact} from the address registered on your account with the subject "Delete my account" and your username. We will confirm the request is yours and start the same 30-day deletion.</p>
+<h2>Just want a break?</h2><p>Use <strong>Settings → Account Deactivation</strong> in the app to hide your profile without deleting anything.</p>
+<p><a href="${base}privacy/">Privacy Policy</a></p>`, 'Delete your iConnecto account and data. Deletion completes after 30 days.')
 
 // Home page = About page
 writeFileSync(join(dist, 'index.html'), readFileSync(join(dist, 'about', 'index.html'), 'utf8'))
