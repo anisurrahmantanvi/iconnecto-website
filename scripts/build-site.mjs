@@ -19,7 +19,7 @@ header,main,footer{max-width:720px;margin:0 auto;padding:16px 20px}
 header{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px}
 header img{width:36px;height:36px;border-radius:9px}
 main{background:var(--card);border:1px solid var(--line);border-radius:18px;margin-top:8px;padding:24px}
-h1{margin:.2em 0 .1em;font-size:1.8rem}h2{margin-top:1.6em;font-size:1.15rem}
+h1{margin:.2em 0 .1em;font-size:1.8rem}h2{margin-top:1.6em;font-size:1.2rem}h3{margin:1em 0 .2em;font-size:1rem;color:var(--accent)}
 a{color:var(--accent)}ul{padding-left:1.2em}.muted{color:var(--muted)}
 nav a{margin-right:14px}footer{color:var(--muted);font-size:.9rem}
 .btn{display:inline-block;background:var(--accent);color:#fff;border-radius:999px;padding:10px 20px;text-decoration:none;font-weight:600}
@@ -45,13 +45,38 @@ const APP = process.env.APP_URL || 'https://anisurrahmantanvi.github.io/iConnect
 page('about', 'About', `
 <h1>${cfg.appName}</h1>
 <p class="muted">Connect with friends, share moments, chat and call, in one app.</p>
-<h2>What you can do</h2>
+<h2>Features</h2>
+<h3>Share</h3>
 <ul>
-<li>Share posts and photos with friends, and follow Pages from creators and businesses.</li>
-<li>Send private messages and make voice and video calls.</li>
-<li>Join communities, react and comment on posts.</li>
-<li>Control who sees your profile and content, block and report accounts, and protect your account with two-step verification.</li>
+<li>Post text and photos, add music, and choose who sees it: Public, Friends only, or Only me.</li>
+<li>Like, react with emoji, comment, reply, share and save posts.</li>
+<li>Short videos in Reels.</li>
+<li>Create a <strong>Page</strong> for yourself as a creator, or for a business, community or news source. Followers see Page posts in their feed, and Page owners get simple insights.</li>
+<li>Join and create communities.</li>
 </ul>
+<h3>Connect</h3>
+<ul>
+<li>Add friends, follow people, and discover new people, posts and communities with search.</li>
+<li>Private chat with message requests, replies, forwarding, emoji reactions, read receipts, typing and online status, and chat archive.</li>
+<li>Voice and video calls.</li>
+<li>Push notifications with controls for messages, calls, likes, comments, pause and quiet hours.</li>
+<li>Available in English, Bangla and Hindi.</li>
+</ul>
+<h3>Privacy and safety</h3>
+<ul>
+<li>Private account, who can message you, blocking and reporting.</li>
+<li>Two-step verification with an authenticator app or email code, trusted devices and sign-in alerts.</li>
+<li>Download your information, deactivate or permanently delete your account at any time.</li>
+<li>Blue verified badge for verified accounts.</li>
+<li>No ads and no selling of your data.</li>
+</ul>
+<h3>Coming soon</h3>
+<ul>
+<li>Buy &amp; Sell marketplace with safe-deal tools.</li>
+<li>Stories and more creator tools.</li>
+</ul>
+<h2>Get the app</h2>
+<p>Open iConnecto in your browser now. The Android app is coming to Google Play.</p>
 <p><a class="btn" href="${APP}">Open ${cfg.appName}</a></p>
 <h2>Policies and help</h2>
 <ul>
