@@ -51,20 +51,27 @@ page('about', 'About', `
 <li>Post text and photos, add music, and choose who sees it: Public, Friends only, or Only me.</li>
 <li>Like, react with emoji, comment, reply, share and save posts.</li>
 <li>Short videos in Reels.</li>
-<li>Create a <strong>Page</strong> for yourself as a creator, or for a business, community or news source. Followers see Page posts in their feed, and Page owners get simple insights.</li>
+<li>Create a <strong>Page</strong> for yourself as a creator, or for a business, community or news source. Followers see Page posts in their feed, and Page owners get simple insights, notifications, an inbox for messages to the Page, and their own settings and policy page.</li>
+<li>Switch between your personal profile and your Pages, like on other social apps.</li>
+<li>Make your profile your own: theme colour, background, layout and a profile song.</li>
+<li>Save posts, add accounts to Favorites, and see a Favorites-only feed.</li>
 <li>Join and create communities.</li>
 </ul>
 <h3>Connect</h3>
 <ul>
 <li>Add friends, follow people, and discover new people, posts and communities with search.</li>
 <li>Private chat with message requests, replies, forwarding, emoji reactions, read receipts, typing and online status, and chat archive.</li>
-<li>Voice and video calls.</li>
+<li>Voice and video calls that ring even when the app is in the background (Android).</li>
+<li><strong>iConnecto AI</strong>, a free assistant in Messages for questions, writing help and ideas.</li>
 <li>Push notifications with controls for messages, calls, likes, comments, pause and quiet hours.</li>
 <li>Available in English, Bangla and Hindi.</li>
+<li>Choose your layout: Thumb Arc (one round button under your thumb) or the classic bottom bar.</li>
 </ul>
 <h3>Privacy and safety</h3>
 <ul>
-<li>Private account, who can message you, blocking and reporting.</li>
+<li>Private account, who can message you, who can comment, blocking and reporting.</li>
+<li>Hidden words, Not interested, Snooze, and Digital Wellbeing with break and daily-limit reminders.</li>
+<li>Accessibility and media settings: text size, reduce motion, high contrast and data saver.</li>
 <li>Two-step verification with an authenticator app or email code, trusted devices and sign-in alerts.</li>
 <li>Download your information, deactivate or permanently delete your account at any time.</li>
 <li>Blue verified badge for verified accounts.</li>
@@ -94,11 +101,14 @@ const privacy = `
 <li><strong>Account:</strong> your email address and password (the password is stored only as a secure hash by our sign-in provider).</li>
 <li><strong>Profile:</strong> username, display name, bio, profile and cover photos, and optional About details you add (work, education, location, relationship status).</li>
 <li><strong>Content you create:</strong> posts, photos, music you attach, comments, reactions, saved posts, communities and Pages you join or manage, and messages you send.</li>
-<li><strong>Connections and safety:</strong> your friends and followers, accounts you block, and reports you file.</li>
+<li><strong>Connections and safety:</strong> your friends and followers, accounts you block, and reports you file. Reports are reviewed by iConnecto administrators, who can remove content that breaks the rules; these actions are logged.</li>
+<li><strong>On your phone only:</strong> your recent searches, hidden words, display and layout choices, and Digital Wellbeing usage totals are kept on your device and are not sent to us.</li>
 <li><strong>Activity status:</strong> when you were last active, so friends can see "Online". You can turn this off in Settings.</li>
 <li><strong>Security:</strong> the devices you sign in from (a device name and last-seen time) so we can show your active sessions and send sign-in alerts. If you turn on two-step verification, the sign-in provider stores the verification factor.</li>
 <li><strong>Support requests:</strong> messages you send from Settings → Support, with basic device information to help us fix problems.</li>
 <li><strong>Calls:</strong> the call's status and technical set-up messages so the call can connect. Voice and video go directly between phones where possible. We do not record calls.</li>
+<li><strong>Page messages:</strong> messages people send to a Page and the Page's replies, visible to the Page's owner and admins and to the person who wrote.</li>
+<li><strong>iConnecto AI:</strong> the messages you type to the assistant are sent through our server to Google's Gemini service to produce a reply. We do not store those conversations on our servers. We only count how many requests you make each day to apply a daily limit. The chat history you see is kept on your own phone, and you can clear it at any time.</li>
 <li><strong>Notifications:</strong> a push token that identifies your phone, and your notification preferences.</li>
 </ul>
 <h2>What we do not do</h2><ul>
@@ -107,6 +117,7 @@ const privacy = `
 <li>We do not read your contacts or location.</li></ul>
 <h2>Permissions</h2><p>The Android app may ask for the camera and microphone (calls, photos, video), photos you choose to upload, and permission to show notifications. You can change each one in your phone's settings.</p>
 <h2>Who handles your information</h2><ul>
+<li><strong>Google Gemini</strong> writes the replies of iConnecto AI. Text you send to the assistant is processed by Google under its terms for the Gemini API. On free usage tiers Google may use such content to improve its products, so do not share passwords or private secrets with the assistant.</li>
 <li><strong>Supabase</strong> stores the database, sign-in, uploaded files and real-time messages.</li>
 <li><strong>Google Firebase Cloud Messaging</strong> delivers push notifications. A notification's text, such as the beginning of a message, passes through Google to reach your phone.</li>
 <li><strong>Google (STUN)</strong> helps two phones find each other for a call, which shares network addresses needed to connect.</li>
