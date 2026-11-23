@@ -41,7 +41,7 @@ function page(slug, title, body, description) {
   }
 }
 
-const APP = process.env.APP_URL || 'https://anisurrahmantanvi.github.io/iConnecto/'
+const APP = process.env.APP_URL || 'https://anisurrahmantanvi.github.io/hmm/'
 page('about', 'About', `
 <h1>${cfg.appName}</h1>
 <p class="muted">Connect with friends, share moments, chat and call, in one app.</p>
@@ -62,7 +62,7 @@ page('about', 'About', `
 <li>Add friends, follow people, and discover new people, posts and communities with search.</li>
 <li>Private chat with message requests, replies, forwarding, emoji reactions, read receipts, typing and online status, and chat archive.</li>
 <li>Voice and video calls that ring even when the app is in the background (Android).</li>
-<li><strong>iConnecto AI</strong>, a free assistant in Messages for questions, writing help and ideas.</li>
+<li><strong>Hmm AI</strong>, a free assistant in Messages for questions, writing help and ideas.</li>
 <li>Push notifications with controls for messages, calls, likes, comments, pause and quiet hours.</li>
 <li>Available in English, Bangla and Hindi.</li>
 <li>Choose your layout: Thumb Arc (one round button under your thumb) or the classic bottom bar.</li>
@@ -83,7 +83,7 @@ page('about', 'About', `
 <li>Stories and more creator tools.</li>
 </ul>
 <h2>Get the app</h2>
-<p>Open iConnecto in your browser now. The Android app is coming to Google Play.</p>
+<p>Open Hmm in your browser now. The Android app is coming to Google Play.</p>
 <p><a class="btn" href="${APP}">Open ${cfg.appName}</a></p>
 <h2>Policies and help</h2>
 <ul>
@@ -92,7 +92,7 @@ page('about', 'About', `
 <li><a href="${base}delete-account/">How to delete your account and data</a></li>
 </ul>
 <h2>Contact</h2><p>Questions or problems? Reach us at ${contact}.</p>`,
-  'iConnecto is a social app for sharing posts, chatting and calling.')
+  'Hmm is a social app for sharing posts, chatting and calling.')
 
 const privacy = `
 <h1>Privacy Policy</h1><p class="muted">${cfg.appName} · Last updated ${cfg.updated}</p>
@@ -101,14 +101,14 @@ const privacy = `
 <li><strong>Account:</strong> your email address and password (the password is stored only as a secure hash by our sign-in provider).</li>
 <li><strong>Profile:</strong> username, display name, bio, profile and cover photos, and optional About details you add (work, education, location, relationship status).</li>
 <li><strong>Content you create:</strong> posts, photos, music you attach, comments, reactions, saved posts, communities and Pages you join or manage, and messages you send.</li>
-<li><strong>Connections and safety:</strong> your friends and followers, accounts you block, and reports you file. Reports are reviewed by iConnecto administrators, who can remove content that breaks the rules; these actions are logged.</li>
+<li><strong>Connections and safety:</strong> your friends and followers, accounts you block, and reports you file. Reports are reviewed by Hmm administrators, who can remove content that breaks the rules; these actions are logged.</li>
 <li><strong>On your phone only:</strong> your recent searches, hidden words, display and layout choices, and Digital Wellbeing usage totals are kept on your device and are not sent to us.</li>
 <li><strong>Activity status:</strong> when you were last active, so friends can see "Online". You can turn this off in Settings.</li>
 <li><strong>Security:</strong> the devices you sign in from (a device name and last-seen time) so we can show your active sessions and send sign-in alerts. If you turn on two-step verification, the sign-in provider stores the verification factor.</li>
 <li><strong>Support requests:</strong> messages you send from Settings → Support, with basic device information to help us fix problems.</li>
 <li><strong>Calls:</strong> the call's status and technical set-up messages so the call can connect. Voice and video go directly between phones where possible. We do not record calls.</li>
 <li><strong>Page messages:</strong> messages people send to a Page and the Page's replies, visible to the Page's owner and admins and to the person who wrote.</li>
-<li><strong>iConnecto AI:</strong> the messages you type to the assistant are sent through our server to Google's Gemini service to produce a reply. We do not store those conversations on our servers. We only count how many requests you make each day to apply a daily limit. The chat history you see is kept on your own phone, and you can clear it at any time.</li>
+<li><strong>Hmm AI:</strong> the messages you type to the assistant are sent through our server to Google's Gemini service to produce a reply. We do not store those conversations on our servers. We only count how many requests you make each day to apply a daily limit. The chat history you see is kept on your own phone, and you can clear it at any time.</li>
 <li><strong>Notifications:</strong> a push token that identifies your phone, and your notification preferences.</li>
 </ul>
 <h2>What we do not do</h2><ul>
@@ -117,7 +117,7 @@ const privacy = `
 <li>We do not read your contacts or location.</li></ul>
 <h2>Permissions</h2><p>The Android app may ask for the camera and microphone (calls, photos, video), photos you choose to upload, and permission to show notifications. You can change each one in your phone's settings.</p>
 <h2>Who handles your information</h2><ul>
-<li><strong>Google Gemini</strong> writes the replies of iConnecto AI. Text you send to the assistant is processed by Google under its terms for the Gemini API. On free usage tiers Google may use such content to improve its products, so do not share passwords or private secrets with the assistant.</li>
+<li><strong>Google Gemini</strong> writes the replies of Hmm AI. Text you send to the assistant is processed by Google under its terms for the Gemini API. On free usage tiers Google may use such content to improve its products, so do not share passwords or private secrets with the assistant.</li>
 <li><strong>Supabase</strong> stores the database, sign-in, uploaded files and real-time messages.</li>
 <li><strong>Google Firebase Cloud Messaging</strong> delivers push notifications. A notification's text, such as the beginning of a message, passes through Google to reach your phone.</li>
 <li><strong>Google (STUN)</strong> helps two phones find each other for a call, which shares network addresses needed to connect.</li>
@@ -131,7 +131,7 @@ const privacy = `
 <h2>Children</h2><p>${cfg.appName} is not meant for children under 13, and we do not knowingly collect their information. If you believe a child has an account, contact us and we will remove it.</p>
 <h2>Changes</h2><p>If this policy changes, the date at the top will change. Significant changes will be announced in the app.</p>
 <h2>Contact</h2><p>Questions about privacy: ${contact}.</p>`
-page(['privacy'], 'Privacy Policy', privacy, 'How iConnecto uses, shares and protects your information.')
+page(['privacy'], 'Privacy Policy', privacy, 'How Hmm uses, shares and protects your information.')
 
 page('terms', 'Terms of Service', `
 <h1>Terms of Service</h1><p class="muted">${cfg.appName} · Last updated ${cfg.updated}</p>
@@ -142,7 +142,7 @@ page('terms', 'Terms of Service', `
 <h2>Safety and enforcement</h2><p>You can block and report people and content. We may remove content, or limit or close accounts that break these terms.</p>
 <h2>Service</h2><p>We work to keep ${cfg.appName} available but cannot promise it will always be error-free or uninterrupted. Features may change.</p>
 <h2>Changes</h2><p>We may update these terms. Important changes will be shown in the app. Using the app after a change means you accept it.</p>
-<h2>Contact</h2><p>${contact}.</p>`, 'The rules for using iConnecto.')
+<h2>Contact</h2><p>${contact}.</p>`, 'The rules for using Hmm.')
 
 const ui = `
 <div id="app"><p class="muted">Loading…</p></div>
@@ -240,7 +240,7 @@ ${ui}
 <h2>Can't sign in?</h2>
 <p>Email ${contact} from the address registered on your account with the subject "Delete my account" and your username. We will confirm the request is yours and start the same 30-day deletion.</p>
 <h2>Just want a break?</h2><p>Use <strong>Settings → Account Deactivation</strong> in the app to hide your profile without deleting anything.</p>
-<p><a href="${base}privacy/">Privacy Policy</a></p>`, 'Delete your iConnecto account and data. Deletion completes after 30 days.')
+<p><a href="${base}privacy/">Privacy Policy</a></p>`, 'Delete your Hmm account and data. Deletion completes after 30 days.')
 
 // Home page = About page
 writeFileSync(join(dist, 'index.html'), readFileSync(join(dist, 'about', 'index.html'), 'utf8'))
