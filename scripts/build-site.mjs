@@ -109,6 +109,7 @@ const privacy = `
 <li><strong>Calls:</strong> the call's status and technical set-up messages so the call can connect. Voice and video go directly between phones where possible. We do not record calls.</li>
 <li><strong>Page messages:</strong> messages people send to a Page and the Page's replies, visible to the Page's owner and admins and to the person who wrote.</li>
 <li><strong>Hmm AI:</strong> the messages you type to the assistant are sent through our server to Google's Gemini service to produce a reply. We do not store those conversations on our servers. We only count how many requests you make each day to apply a daily limit. The chat history you see is kept on your own phone, and you can clear it at any time.</li>
+<li><strong>Sign-in records:</strong> when you sign in or open the app, we record your IP address and your device or browser type, for security and to stop abuse. You can see your own records in Settings → Login activity. We keep them for 90 days and then delete them. Only a Hmm administrator investigating abuse can look at another person's records, and each look is logged. We do not sell them or use them for advertising, and we do not work out your location from them.</li>
 <li><strong>Notifications:</strong> a push token that identifies your phone, and your notification preferences.</li>
 </ul>
 <h2>What we do not do</h2><ul>
